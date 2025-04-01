@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday!</title>
+    <title>Happy Birthday Lia!</title>
     <style>
         body {
             background: linear-gradient(135deg, #ffcad4 0%, #ffc8dd 50%, #ffafcc 100%);
@@ -41,13 +41,18 @@
             animation: rotate 3s infinite alternate;
         }
         .message {
-            font-size: 1.5em;
+            font-size: 1.3em;
             color: #d6336c;
             margin: 20px 0;
             opacity: 0;
             transform: translateY(20px);
             transition: all 1s ease;
             font-weight: bold;
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+            text-align: left;
+            line-height: 1.5;
         }
         .visible {
             opacity: 1;
@@ -87,22 +92,16 @@
             background-color: #ffcc00;
             animation: confettiFall 4s linear infinite;
         }
-        .gift {
-            font-size: 4em;
-            margin: 10px;
-            cursor: pointer;
-            transform: scale(1);
-            transition: transform 0.3s ease;
-            display: inline-block;
+        .hearts {
+            position: absolute;
+            font-size: 24px;
+            color: #ff4d6d;
+            animation: heartFly 8s linear infinite;
+            opacity: 0.8;
         }
-        .gift:hover {
-            transform: scale(1.2);
-        }
-        .wishes-container {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease-out;
-            width: 100%;
+        @keyframes heartFly {
+            0% { transform: translateY(100vh) translateX(0) rotate(0deg); }
+            100% { transform: translateY(-20vh) translateX(100px) rotate(360deg); }
         }
         @keyframes confettiFall {
             0% { transform: translateY(-100vh) rotate(0deg); }
@@ -124,63 +123,47 @@
             0% { transform: rotate(-5deg); }
             100% { transform: rotate(5deg); }
         }
+        .emoji {
+            font-size: 1.2em;
+            display: inline-block;
+            animation: bounce 2s infinite;
+        }
         @media (max-width: 600px) {
             h1 { font-size: 2.2em; }
-            .message { font-size: 1.2em; }
+            .message { font-size: 1.1em; }
             .reveal-btn { font-size: 1.1em; padding: 12px 24px; }
             .cake { font-size: 3.5em; }
+            .container { padding: 20px 15px; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🎉 Happy Birthday! 🎉</h1>
+        <h1>🎉 Selamat Ulang Tahun Lia! 🎉</h1>
         <div class="cake">🎂</div>
-        <button class="reveal-btn" onclick="revealMessage()">Klik untuk melihat ucapan</button>
-        <p class="message">Semoga harimu penuh kebahagiaan dan kejutan indah! 🎈💕</p>
-        
-        <div id="gifts" style="margin-top: 20px; display: none;">
-            <p style="color: #d6336c; font-size: 1.3em;">Pilih salah satu hadiah kejutan!</p>
-            <span class="gift" onclick="showWish(1)">🎁</span>
-            <span class="gift" onclick="showWish(2)">🎁</span>
-            <span class="gift" onclick="showWish(3)">🎁</span>
-        </div>
-        
-        <div id="wish1" class="wishes-container">
-            <p style="color: #9d4edd; font-size: 1.2em;">Semoga semua impianmu tercapai dan menjadi kenyataan di tahun baru ini! ✨</p>
-        </div>
-        <div id="wish2" class="wishes-container">
-            <p style="color: #9d4edd; font-size: 1.2em;">Semoga tahun ini membawa keberuntungan dan kesuksesan dalam semua yang kamu lakukan! 🍀</p>
-        </div>
-        <div id="wish3" class="wishes-container">
-            <p style="color: #9d4edd; font-size: 1.2em;">Semoga kamu terus bersinar dan menginspirasi orang-orang di sekitarmu seperti yang selalu kamu lakukan! 🌟</p>
+        <button class="reveal-btn" onclick="revealMessage()">Klik untuk melihat pesan special</button>
+        <div class="message">
+            Selamat ulang tahun Lia yang keberapa nih??? hehe <span class="emoji">😊</span><br><br>
+            
+            Maaf ya untuk hadiahnya cuman bisa ngasih begini, intinya aku cuman mau ngucapin selamat ulang tahun ya!<br><br>
+            
+            makasih juga nih karena tiba-tiba banget nih muncul di fyp TikTok pas lagi live <span class="emoji">😂</span> Kyk bertemu dengan Lia dengan tidak sengaja itu adalah hal paling seru di hidupku.<br><br>
+            <s></s>
+            Aku juga mau berterima kasih buat Lia karena kadang nyariin walaupun aku sedang sibuk. Haduh maaf ya kalau kata-katanya kurang.<br><br>
+            
+            Yang penting ditahun ini Lia harus lebih bahagia, sehat selalu, dan semangat terus yaa <span class="emoji">😊</span><br><br>
+            
+            <strong>Sekali lagi SELAMAT ULANG TAHUN LIA, semoga kita ditahun depan bisa saling bertemu secara langsung yaa</strong> <span class="emoji">😊</span>
         </div>
     </div>
     
     <script>
         function revealMessage() {
             document.querySelector('.message').classList.add('visible');
-            document.getElementById('gifts').style.display = 'block';
             
-            // Create more confetti when message is revealed
+            // Create more confetti and hearts when message is revealed
             createConfetti(100);
-            
-            // Play sound
-            playSound();
-        }
-        
-        function showWish(num) {
-            // Hide all wishes first
-            document.querySelectorAll('.wishes-container').forEach(wish => {
-                wish.style.maxHeight = "0";
-            });
-            
-            // Show selected wish
-            const wishElement = document.getElementById('wish' + num);
-            wishElement.style.maxHeight = wishElement.scrollHeight + "px";
-            
-            // Create some confetti for fun
-            createConfetti(30);
+            createHearts(30);
             
             // Play sound
             playSound();
@@ -195,6 +178,24 @@
                 balloon.style.animationDuration = Math.random() * 3 + 5 + 's';
                 balloon.style.animationDelay = Math.random() * 5 + 's';
                 document.body.appendChild(balloon);
+            }
+        }
+        
+        function createHearts(amount) {
+            for (let i = 0; i < amount; i++) {
+                let heart = document.createElement('div');
+                heart.className = 'hearts';
+                heart.innerHTML = '❤️';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = Math.random() * 4 + 4 + 's';
+                heart.style.animationDelay = Math.random() * 3 + 's';
+                heart.style.fontSize = Math.random() * 10 + 20 + 'px';
+                document.body.appendChild(heart);
+                
+                // Remove after animation
+                setTimeout(() => {
+                    heart.remove();
+                }, 8000);
             }
         }
         
@@ -220,13 +221,17 @@
         
         function playSound() {
             // This function would play a sound if we had audio capabilities
-            // Since we're in a simple HTML page, we'll just log it
             console.log("🎵 Birthday sound playing!");
         }
         
         // Initial setup
         createBalloons();
         createConfetti(50);
+        
+        // Make emoji elements bounce with slight delays
+        document.querySelectorAll('.emoji').forEach((emoji, index) => {
+            emoji.style.animationDelay = (index * 0.2) + 's';
+        });
         
         // Auto-remove confetti after some time to prevent overloading
         setInterval(() => {
